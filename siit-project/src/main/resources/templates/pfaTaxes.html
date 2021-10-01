@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid rgba(0, 0, 0, 0.96);
+            padding: 5px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!--    <form align="right" name="form1" method="post" action="log_out.php">-->
+    <!--        <label class="logoutLblPos">-->
+    <!--            <a th:href="@{'/user'}" class="btn btn-primary btn-block">Profile details</a>-->
+    <!--        </label>-->
+    <!--    </form>-->
+    <!--    <form align="right" name="form2" method="post" action="log_out.php">-->
+    <!--        <label class="logoutLblPos">-->
+    <!--             <a th:href="@{'/login'}" class="btn btn-primary btn-block">Logout</a>-->
+    <!--        </label>-->
+    <!--    </form>-->
+
+    <table align="right">
+        <tr>
+            <th style="background-color:#9696cb" scope="row">Account Settings</th>
+        </tr>
+        <td>
+            <a th:href="@{'/user'}" class="btn btn-primary btn-block">User Details</a>
+            &nbsp;&nbsp;&nbsp;
+            <a th:href="@{'/logout'}">Logout</a>
+        </td>
+    </table>
+</head>
+<!--<div style="background-color: #337ab7; height: 25px;"></div>-->
+<body style="background-color: lightgrey">
+
+<table align="center" class="table table-bordered">
+    <thead>
+    <tr>
+        <th style="background-color:#ff0000" scope="row">An fiscal</th>
+    </tr>
+    <tr>
+        <th style="background-color:#00588CFF" scope="col">id</th>
+        <th style="background-color:#00588CFF" scope="col">fiscalYear</th>
+        <th style="background-color:#00588CFF" scope="col">income</th>
+        <th style="background-color:#00588CFF" scope="col">cui</th>
+        <th style="background-color:#00588CFF" scope="col">CAS</th>
+        <th style="background-color:#00588CFF" scope="col">CASS</th>
+        <th style="background-color:#00588CFF" scope="col">income_Taxes</th>
+        <th style="background-color:#00588CFF" scope="col">income_Taxes_Per_Month</th>
+        <th style="background-color:#00588CFF" scope="col">dividend_taxes_Per_Month</th>
+        <th style="background-color:#00588CFF" scope="col">Settings</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pfaEntity : ${pfaLista}">
+        <td style="background-color: #e75f5f" th:text="${pfaEntity.id}"/>
+        <td style="background-color: #e75f5f" th:text="${pfaEntity.fiscalYear}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.income}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.cui}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.CAS}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.CASS}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxes}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxesPerMonth}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.dividendTaxesPerMonth}"/>
+        <td>
+            <a th:href="@{'/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
+            &nbsp;&nbsp;&nbsp;
+            <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">x</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
+
+
+
+

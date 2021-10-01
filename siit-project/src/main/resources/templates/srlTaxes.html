@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table class=" table table-dark table-striped">
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">cui</th>
+        <th scope="col">CAS</th>
+        <th scope="col">CASS</th>
+        <th scope="col">income_Taxes</th>
+        <th scope="col">income_Taxes_Per_Month</th>
+        <th scope="col">dividend_taxes_Per_Month</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each = "srlEntity : ${srlLista}">
+
+        <td th:text ="${srlLista.id}"/>
+        <td th:text ="${srlLista.cui}"/>
+        <td th:text ="${srlLista.CAS}"/>
+        <td th:text ="${srlLista.CASS}"/>
+        <td th:text ="${srlLista.incomeTaxes}"/>
+        <td th:text ="${srlLista.incomeTaxesPerMonth}"/>
+        <td th:text ="${srlLista.dividendTaxesPerMonth}"/>
+        <td>
+            <a th:href="@{'/srl/edit/' + ${srlEntity.id}}">Edit</a>
+            &nbsp;&nbsp;&nbsp;
+            <a th:href="@{'/srl/delete/' + ${srlEntity.id}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>
