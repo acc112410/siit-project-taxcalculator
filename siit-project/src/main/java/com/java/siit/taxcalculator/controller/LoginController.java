@@ -8,28 +8,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.java.siit.taxcalculator.domain.model.LoginDTO;
-import com.java.siit.taxcalculator.config.UserRoles;
-import com.java.siit.taxcalculator.domain.model.LoginDTO;
 import com.java.siit.taxcalculator.mapper.LoginEntityToLoginDTOMapper;
-import com.java.siit.taxcalculator.domain.entity.LoginEntity;
-import com.java.siit.taxcalculator.service.LoginService;
 import javassist.NotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.List;
-
-
-import java.util.List;
 
 
 @Controller
@@ -57,8 +45,10 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String index() {
-        return "/index";
+    public ModelAndView index(PfaEntity pfaEntity) {
+       ModelAndView hp = new ModelAndView("css/homepage");
+       hp.addObject("pfaEntity",pfaEntity);
+       return hp;
     }
 
 

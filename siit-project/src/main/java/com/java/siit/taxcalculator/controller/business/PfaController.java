@@ -65,15 +65,25 @@ public class PfaController {
     @GetMapping("/taxes/{id}")
     public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
         ModelAndView modelAndView = new ModelAndView("pfaTaxes");
-        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
-        List<PfaEntity> list = new ArrayList<PfaEntity>();
+        List<PfaEntity> lista = pfaService.findAllByLoginId(id);
+//        List<PfaEntity> list = new ArrayList<PfaEntity>();
+//
+//        for (int i = 0; i < lista.size(); i++) {
+//            if (lista.get(i).getLoginId() == id) {
+//                list.add(lista.get(i));
+//            }
+//        }
+        modelAndView.addObject("pfaLista", lista);
+        return modelAndView;
+    }
 
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getLoginId() == id) {
-                list.add(lista.get(i));
-            }
-        }
-        modelAndView.addObject("pfaLista", list);
+    @GetMapping ("/taxes/{id}/{fiscalYear}")
+    public ModelAndView afisareTaxeDupaAnFiscal(@PathVariable("id") Long id, @PathVariable("fiscalYear") Long fiscalYear){
+        ModelAndView modelAndView = new ModelAndView("pfaTaxes2");
+        List<PfaEntity> listAni = pfaService.findAllByLoginId(id);
+        List <PfaEntity> lista = pfaService.findAllByFiscalYearAndLoginId(fiscalYear,id);
+        modelAndView.addObject("pfaLista", lista);
+        modelAndView.addObject("pfaLista2",listAni);
         return modelAndView;
     }
 

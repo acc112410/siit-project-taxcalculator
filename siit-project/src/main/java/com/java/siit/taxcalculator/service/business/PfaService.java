@@ -52,7 +52,7 @@ public class PfaService {
                 .id(dto.getId())
                 .loginId(dto.getLoginId())
                 .income(dto.getIncome())
-//                .fiscalYear(dto.getFiscalYear())
+                .fiscalYear(dto.getFiscalYear())
                 .CAS((dto.getIncome() * 25 / 100))
                 .CASS((dto.getIncome() * 10 / 100))
                 .incomeTaxes((dto.getIncome() * 10 / 100))
@@ -103,8 +103,11 @@ public class PfaService {
         pfaRepository.deleteById(id);
     }
 
-    public PfaEntity findByLoginId(Long userId) {
-        return pfaRepository.findById(userId).get();
+    public List<PfaEntity> findAllByLoginId(long loginId) {
+        return pfaRepository.findAllByLoginId(loginId);
+    }
+    public List<PfaEntity> findAllByFiscalYearAndLoginId (long fiscalYear, long loginId){
+        return  pfaRepository.findAllByFiscalYearAndLoginId(fiscalYear,loginId);
     }
 
     public void delete(PfaEntity pfaEntity) {
