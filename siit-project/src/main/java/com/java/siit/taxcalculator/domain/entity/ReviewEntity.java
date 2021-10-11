@@ -17,10 +17,10 @@ public class ReviewEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "idreview")
     private long id;
 
-    @Column(name = "email")
+    @Column(name = "user_email")
     private String email;
 
     @Column(name = "name")
@@ -31,4 +31,8 @@ public class ReviewEntity {
 
     @Column(name = "message")
     private String message;
+
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private LoginEntity loginEntity;
 }

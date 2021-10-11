@@ -30,5 +30,6 @@ public interface LoginRepository extends JpaRepository<LoginEntity, Long> {
     @Query("SELECT l from LoginEntity l")
     List<LoginEntity> getAll();
 
+    LoginEntity getLoginEntityByEmail(String email);
 
 }

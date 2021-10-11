@@ -48,4 +48,8 @@ public class LoginEntity {
     @Column(name = "user_role")
     private UserRoles userRoles;
 
+    @OneToMany(mappedBy = "loginEntity")
+    private List<ReviewEntity> reviewEntities;
+    
+
 }

@@ -19,4 +19,6 @@ public class ReviewDTO {
     private String subject;
 
     private String message;
+
+    private LoginDTO loginDTO;
 }

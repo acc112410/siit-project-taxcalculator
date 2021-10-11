@@ -1,6 +1,7 @@
 package com.java.siit.taxcalculator.domain.model;
 
 
+import com.java.siit.taxcalculator.config.UserRoles;
 import com.java.siit.taxcalculator.domain.model.business.PfaDTO;
 
 import lombok.AllArgsConstructor;
@@ -35,5 +36,8 @@ public class LoginDTO {
     private String typeOfBusiness;
 
     private List<PfaDTO> pfaDTOList;
+
+    private UserRoles userRoles;
+
 
 }
