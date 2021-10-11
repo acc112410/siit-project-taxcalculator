@@ -43,7 +43,10 @@
 <table align="center" class="table table-bordered">
     <thead>
     <tr>
-        <th style="background-color:#ff0000" scope="row">An fiscal</th>
+        <a th:href="@{'/pfa/taxes/fiscalYear'}">
+            <button type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">An fiscal</button>
+        </a>
+<!--        <th style="background-color:#ff0000" scope="row">An fiscal</th>-->
     </tr>
     <tr>
         <th style="background-color:#00588CFF" scope="col">id</th>
@@ -55,9 +58,16 @@
         <th style="background-color:#00588CFF" scope="col">income_Taxes</th>
         <th style="background-color:#00588CFF" scope="col">income_Taxes_Per_Month</th>
         <th style="background-color:#00588CFF" scope="col">dividend_taxes_Per_Month</th>
+        <th style="background-color:#00588CFF" scope="col">taxes_Total</th>
+        <th style="background-color:#00588CFF" scope="col">TAXESSUM</th>
         <th style="background-color:#00588CFF" scope="col">Settings</th>
-
+<!--    <tr>-->
+<!--        <th type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">Taxes total</th>-->
+<!--    </tr>-->
     </tr>
+<!--    <tr>-->
+<!--        <th type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">Taxes total</th>-->
+<!--    </tr>-->
     </thead>
     <tbody>
     <tr th:each="pfaEntity : ${pfaLista}">
@@ -70,14 +80,19 @@
         <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxes}"/>
         <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxesPerMonth}"/>
         <td style="background-color: aqua" th:text="${pfaEntity.dividendTaxesPerMonth}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.taxesTotal}"/>
+        <td style="background-color: #e75f5f" th:text="${pfaEntity.totalTaxesById}"/>
         <td>
             <a th:href="@{'/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
             &nbsp;&nbsp;&nbsp;
             <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">x</a>
         </td>
-
     </tr>
     </tbody>
+<!--    <tr th:each="pfaEntity : ${pfaLista}">-->
+<!--        <th type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">Taxes total</th>-->
+<!--        <td style="background-color: #e75f5f" th:text="${pfaEntity.totalTaxesById}"/>-->
+<!--    </tr>-->
 </table>
 </body>
 </html>

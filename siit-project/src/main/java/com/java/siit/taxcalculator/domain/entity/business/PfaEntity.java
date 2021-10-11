@@ -38,8 +38,8 @@ public class PfaEntity {
 
 
 
-//    @Column(name = "email")
-//    private String email;
+    @Column(name = "email")
+    private String email;
 
 
 //    @Email(message = "Email should be valid")
@@ -68,6 +68,12 @@ public class PfaEntity {
 
     @Column(name = "login_Id")
     private long loginId;
+
+    @Column(name="taxes_Total")
+    private long taxesTotal;
+
+    @Column(name = "total_Taxes_By_ID")
+    private long totalTaxesById;
 
 
 }
