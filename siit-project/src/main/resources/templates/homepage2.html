@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:background-color="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css} " />
+    <style>
+
+
+    .body{
+      display:grid;
+       grid-template-rows: 1fr 3fr 1fr;
+    }
+      .header{
+          grid-area:head;
+          background: linear-gradient(135deg, #172a74, #21a9af);
+           background-color: #184e8e;
+          padding-bottom: 80px;
+         font-family: 'Source Sans Pro', sans-serif;
+
+        }
+        .navbar {
+            background: transparent;
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            color: #002afe;
+            border-radius: 0;
+            box-shadow: none;
+            border: none;
+            display: inline;
+
+            }
+
+            .header .navbar .form-inline .search-field {
+                display: inline-block;
+                width: 80%;
+                background: none;
+                border: none;
+                border-bottom: 1px solid transparent;
+                border-radius: 0;
+                color: #ccc;
+                box-shadow: none;
+                color: inherit;
+                transition: border-bottom-color 0.3s;
+            }
+
+        li{
+          float:left;
+        }
+        li a {
+           display: block;
+           color: white;
+           text-align: center;
+           padding: 14px 16px;
+           text-decoration: none;
+         }
+         .container-fluid{
+           background-color: #FAFAD2;
+
+        ]
+         }
+         .btn-group {
+           position: relative;
+           left: 20%;
+
+         }
+         .table{
+           position: relative;
+           left: 20%;
+           display: inline-table ;
+           align-items: center;
+           background-color: #778899;
+           align-content:  center;
+
+         }
+         .footer {
+           position: relative;
+           background-color: #FAFAD2;
+
+         }
+    </style>
+
+</head>
+<body>
+<script th:src="@{/webjars/bootstrap/5.1.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<div class = "header">
+<nav class="navbar">
+    <div class="position-absolute top-0 start-0">
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+
+              <li><a class="nav-link active" aria-current="page" href="/index">Tax Calculator</a></li>
+              <li><a class="nav-link" href="#">Despre Noi</a></li>
+                <li><a class="nav-link" href="#">Ajutor</a></li>
+
+
+                <li style="float:right"><a class="nav-link" href="/login"> Register</a></li>
+                <li style="float:right"><a class="nav-link" href="/register"> Log In</a></li>
+            </div>
+        </div>
+    </div>
+</nav>
+</div>
+
+<main class="container-fluid">
+  <div class="btn-group">
+  <button type="button" class="btn btn-primary"> <a class="nav-link" href="index/pfa/0"> PFA</a></button>
+  <button type="button" class="btn btn-primary" ><a class="nav-link" href="#">SRL</a></button>
+</div>
+<table align="center" class="table table-bordered">
+    <thead>
+    <tr>
+        <th style="background-color:#ff0000" scope="row">An fiscal</th>
+    </tr>
+    <tr>
+        <th style="background-color:#00588CFF" scope="col">income</th>
+        <th style="background-color:#00588CFF" scope="col">cui</th>
+        <th style="background-color:#00588CFF" scope="col">CAS</th>
+        <th style="background-color:#00588CFF" scope="col">CASS</th>
+        <th style="background-color:#00588CFF" scope="col">income_Taxes</th>
+        <th style="background-color:#00588CFF" scope="col">income_Taxes_Per_Month</th>
+        <th style="background-color:#00588CFF" scope="col">dividend_taxes_Per_Month</th>
+        <th style="background-color:#00588CFF" scope="col">Settings</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th="pfaEntity : ${pfaEntity} ">
+        <td style="background-color: aqua" th:text="${pfaEntity.income}">
+            <form autocomplete="off" action="#" th:action="@{/index/pfa}" th:object="${pfaEntity}"  method="post"
+                  class="form-signin" role="form">
+                <div class="form-group">
+                    <div class="">
+                        <input type="number" id="income" th:field="*{income}" placeholder="Income" class="form-control"/>
+                    </div>
+                </div>
+                <button
+                        type="submit" onclick="window.location.href = 'localhost:8080/index'";
+                        class="btn btn-primary btn-block">Convert
+                </button>
+        </td>
+
+        <td style="background-color: aqua" th:text="${pfaEntity.cui}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.CAS}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.CASS}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxes}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxesPerMonth}"/>
+        <td style="background-color: aqua" th:text="${pfaEntity.dividendTaxesPerMonth}"/>
+        <td>
+            <a th:href="@{'/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
+            &nbsp;&nbsp;&nbsp;
+            <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">x</a>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+</main>
+<!-- <div class="footer-dark">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Web design</a></li>
+                        <li><a href="#">Development</a></li>
+                        <li><a href="#">Hosting</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>About</h3>
+                    <ul>
+                        <li><a href="#">Company</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 item text">
+                    <h3>Company Name</h3>
+                    <p>Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.</p>
+                </div>
+                <div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-instagram"></i></a></div>
+            </div>
+            <p class="copyright">Company Name © 2017</p>
+        </div>
+    </footer> -->
+</div>
+
+
+</body>
+</html>
