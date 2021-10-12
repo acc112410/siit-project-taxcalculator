@@ -58,6 +58,12 @@ public class LoginController {
         return modelAndView;
     }
 
+    @GetMapping("/index/test")
+    @ResponseBody
+    public void test(@RequestParam long income){
+        System.out.println(income);
+    }
+
 
 
 
