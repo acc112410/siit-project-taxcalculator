@@ -3,7 +3,9 @@ package com.java.siit.taxcalculator.controller;
 
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
+import com.java.siit.taxcalculator.domain.model.business.PfaDTO;
 import com.java.siit.taxcalculator.service.LoginService;
+import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +30,9 @@ public class LoginController {
     @Autowired
     private final LoginService service;
 
+    @Autowired
+    private final PfaService pfaService;
+
 
 
     private final LoginEntityToLoginDTOMapper loginEntityToLoginDTOMapper;
@@ -45,11 +50,59 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public ModelAndView index(PfaEntity pfaEntity) {
-       ModelAndView hp = new ModelAndView("css/homepage");
-       hp.addObject("pfaEntity",pfaEntity);
-       return hp;
+    public ModelAndView homepage () {
+
+        ModelAndView modelAndView = new ModelAndView("homepage2");
+        PfaEntity pfaEntity = new PfaEntity();
+        modelAndView.addObject("pfaEntity", pfaEntity);
+        return modelAndView;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// cele doua metode de mai jos sunt legate la tabelul din database
+// si ar trebui sa creeze/editeze un pfaEntity (cu id-ul 0) care sa se stearga automat din tabel odata ce nu mai e vizibil pe pagina
+// desi user-ul cu id-ul zero exista mie imi da o eroare ca nu il gaseste
+//
+
+
+
+
+
+
+
+
+
+//    @RequestMapping("/index/pfa/0")
+//    public ModelAndView raspunsPfaExemplu (){
+//        ModelAndView modelAndView = new ModelAndView("homepage2");
+//
+//        PfaEntity pfaEntity = pfaService.getPfaEntityById(0);
+//        modelAndView.addObject("pfaEntity", pfaEntity);
+//        pfaService.deletePfaEntityById(0);
+//        return modelAndView;
+//    }
 
 
 //    @GetMapping("/users")

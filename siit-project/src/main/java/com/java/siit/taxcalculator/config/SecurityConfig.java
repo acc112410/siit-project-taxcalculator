@@ -32,7 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery("SELECT user_email, 'ROLE_USER' FROM login WHERE user_email=?")
+//        authenticationManagerBuilder.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .withDefaultSchema()
+//                .withUser(User.withUsername("user")
+//                        .password(passwordEncoder().encode("pass"))
+//                        .roles("USER"));
+        authenticationManagerBuilder.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery("SELECT user_email, ROLE_USER, ROLE_ADMIN FROM login WHERE user_email=?")
                 .dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);
 
     }
@@ -44,7 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/index").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/admin/**").hasRole(UserRoles.ADMIN.name())
+                .anyRequest()
+                .authenticated()
                 .and()
                 .csrf().disable().formLogin()
                 .loginPage("/login")

@@ -61,6 +61,23 @@ public class PfaController {
 
         return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
     }
+//    @PostMapping("/index/pfa")
+//    public RedirectView pfaExemplu ( PfaEntity entity){
+//        entity.setId(0);
+//        pfaService.createPfa(pfaService.toDto(entity));
+//        return new RedirectView("http://localhost:8080/index/pfa/0");
+//
+//    }
+//    @RequestMapping("/index/pfa/0")
+//    public ModelAndView raspunsPfaExemplu (){
+//        ModelAndView modelAndView = new ModelAndView("homepage2");
+//
+//        PfaEntity pfaEntity = pfaService.getPfaEntityById(0);
+//        modelAndView.addObject("pfaEntity", pfaEntity);
+//        pfaService.deletePfaEntityById(0);
+//        return modelAndView;
+//    }
+
 
     @GetMapping("/taxes/{id}")
     public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {

@@ -92,9 +92,12 @@ public class PfaService {
 
 
     public PfaEntity get(Long id) {
-        return pfaRepository.findById(id).get();
+        return pfaRepository.findById(id).orElseGet(null);
     }
 
+    public PfaEntity getPfaEntityById( int id) {return pfaRepository.getPfaEntityById( id);}
+
+    public PfaEntity deletePfaEntityById(int id) {return pfaRepository.deletePfaEntityById(id);}
 //    public PfaEntity getById(Long loginId) {
 //        return pfaRepository.findById(loginId).get();
 //    }
