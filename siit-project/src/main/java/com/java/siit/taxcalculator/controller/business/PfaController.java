@@ -34,7 +34,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/pfa")
+@RequestMapping("/user/pfa")
 @AllArgsConstructor
 public class PfaController {
     private final PfaService pfaService;

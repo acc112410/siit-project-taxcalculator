@@ -1,17 +1,22 @@
 package com.java.siit.taxcalculator.domain.entity;
 
 
+import com.google.common.collect.Sets;
 import com.java.siit.taxcalculator.config.UserRoles;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
 
 import lombok.*;
+import org.apache.catalina.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
+import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 
 
 @Entity
@@ -20,7 +25,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginEntity {
+public class LoginEntity  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +48,13 @@ public class LoginEntity {
     private String typeOfBusiness;
 
     @Column(name = "enabled")
-    private String enabled;
+    private boolean enabled;
 
-    @Column(name = "user_role")
-    private UserRoles userRoles;
-
+    public boolean getEnabled() {
+        return enabled;
+    }
 }
+
+
+
+

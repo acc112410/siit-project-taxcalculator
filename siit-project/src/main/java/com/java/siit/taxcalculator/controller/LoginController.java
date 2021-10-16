@@ -1,10 +1,12 @@
 package com.java.siit.taxcalculator.controller;
 
 
+import com.java.siit.taxcalculator.config.UserRoles;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
 import com.java.siit.taxcalculator.domain.model.business.PfaDTO;
 import com.java.siit.taxcalculator.service.LoginService;
+import com.java.siit.taxcalculator.service.UserRolesService;
 import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,12 @@ public class LoginController {
     @Autowired
     private final LoginService service;
 
+
     @Autowired
     private final PfaService pfaService;
+
+    @Autowired
+    private final UserRolesService userRolesService;
 
 
 
@@ -49,68 +55,25 @@ public class LoginController {
         return "/login";
     }
 
+
     @GetMapping("/index")
-    public ModelAndView homepage () {
+    public ModelAndView homepagePFA () {
 
         ModelAndView modelAndView = new ModelAndView("homepage2");
         PfaEntity pfaEntity = new PfaEntity();
         modelAndView.addObject("pfaEntity", pfaEntity);
+
         return modelAndView;
     }
+    @GetMapping("/index/srl")
+    public ModelAndView homepageSRL () {
 
+        ModelAndView modelAndView = new ModelAndView("homepage3");
+        PfaEntity pfaEntity = new PfaEntity();
+        modelAndView.addObject("pfaEntity", pfaEntity);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// cele doua metode de mai jos sunt legate la tabelul din database
-// si ar trebui sa creeze/editeze un pfaEntity (cu id-ul 0) care sa se stearga automat din tabel odata ce nu mai e vizibil pe pagina
-// desi user-ul cu id-ul zero exista mie imi da o eroare ca nu il gaseste
-//
-
-
-
-
-
-
-
-
-
-//    @RequestMapping("/index/pfa/0")
-//    public ModelAndView raspunsPfaExemplu (){
-//        ModelAndView modelAndView = new ModelAndView("homepage2");
-//
-//        PfaEntity pfaEntity = pfaService.getPfaEntityById(0);
-//        modelAndView.addObject("pfaEntity", pfaEntity);
-//        pfaService.deletePfaEntityById(0);
-//        return modelAndView;
-//    }
-
-
-//    @GetMapping("/users")
-//    public String getAllUsersWithBusiness(Model model) {
-//        List<LoginEntity> users = service.getAllUsersWithBusiness();
-//        model.addAttribute("users", users);
-//        return "users";
-//    }
+        return modelAndView;
+    }
 
 
     @GetMapping("/user/delete/{id}")
@@ -128,23 +91,6 @@ public class LoginController {
         mav.addObject("login", login);
         return mav;
     }
-
-
-    //    @GetMapping("/users")
-//    public void getAllUsersWithBusiness(){
-//  service.getAllUsersWithBusiness().forEach(
-//                x -> loginEntityToLoginDTOMapper.convert(x)
-//        );
-//    }
-//    @GetMapping("/admin")
-//    public String editUserList(Model model) {
-//        List<LoginEntity> list = service.getAllByUserRoles();
-//        model.addAttribute("userList", list);
-//
-//        return "admin";
-//
-//    }
-
 
             @GetMapping("/register")
             public ModelAndView register () {
@@ -169,7 +115,8 @@ public class LoginController {
     public ModelAndView create(LoginEntity loginEntity, BindingResult bindingResult, ModelMap modelMap) {
 
         System.out.println("login " + loginEntity);
-        loginEntity.setEnabled("true");
+        loginEntity.setEnabled(true);
+
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("successMessage", "Please correct the errors in form!");
@@ -182,7 +129,7 @@ public class LoginController {
             modelAndView.addObject("successMessage", "User is registered successfully!");
         }
         modelAndView.addObject("loginEntity", new LoginEntity());
-
+        userRolesService.create(loginEntity);
         modelAndView.setViewName("register");
         return modelAndView;
     }

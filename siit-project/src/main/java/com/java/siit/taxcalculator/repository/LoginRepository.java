@@ -14,14 +14,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface LoginRepository extends JpaRepository<LoginEntity, Long> {
 
     LoginEntity getByEmail(String email);
+//   Optional<LoginEntity> selectLoginEntityByUsername(String email);
 
-     List <LoginEntity> getAllByUserRoles(UserRoles userRoles);
+//     List <LoginEntity> getAllByUserRoles(String userRoles);
 
     @Query("SELECT l FROM LoginEntity l WHERE l.id = :id")
     LoginEntity findById( long id);
@@ -29,6 +31,8 @@ public interface LoginRepository extends JpaRepository<LoginEntity, Long> {
 
     @Query("SELECT l from LoginEntity l")
     List<LoginEntity> getAll();
+
+
 
 
 }

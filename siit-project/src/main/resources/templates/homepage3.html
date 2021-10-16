@@ -108,8 +108,8 @@
 
 <main class="container-fluid">
   <div class="btn-group">
-  <button type="button" class="btn btn-primary"> <a class="nav-link" href="#"> PFA</a></button>
-  <button type="button" class="btn btn-primary" ><a class="nav-link" href="/index/srl">SRL</a></button>
+  <button type="button" class="btn btn-primary"> <a class="nav-link" href="/index"> PFA</a></button>
+  <button type="button" class="btn btn-primary" ><a class="nav-link" href="#">SRL</a></button>
 </div>
 <table align="center" class="table table-bordered">
     <thead>
@@ -132,7 +132,7 @@
         <td>
             <form>
                  <input type="number" name="income" id="income"><br>
-                <button type="button" onclick="pfa()">Add</button>
+                <button type="button" onclick="srl()">Add</button>
             </form>
 
 
@@ -195,16 +195,17 @@
     </footer> -->
 </div>
 <script>
-    function pfa() {
+    function srl() {
         var income = document.getElementById('income').value;
-        var cas = parseFloat(income) * 25 /100;
+        var cas = parseFloat(income) * 0;
         document.getElementById("cas").innerHTML = cas;
         var cass = parseFloat(income) /10
-        var zero = parseFloat(income) * 0
+        var incomeTaxesPerMonth = parseFloat(income) * 3/100
+        var dividendTaxesPerMonth = parseFloat(income) * 5/100
         document.getElementById("cass").innerHTML = cass;
-        document.getElementById("incomeTaxes").innerHTML = cass ;
-        document.getElementById("incomeTaxesPerMonth").innerHTML = zero;
-        document.getElementById("dividendTaxesPerMonth").innerHTML = zero;
+        document.getElementById("incomeTaxes").innerHTML = parseFloat(0) ;
+        document.getElementById("incomeTaxesPerMonth").innerHTML = incomeTaxesPerMonth;
+        document.getElementById("dividendTaxesPerMonth").innerHTML = dividendTaxesPerMonth;
 
 
     }
