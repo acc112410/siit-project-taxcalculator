@@ -28,7 +28,7 @@
 <body>
 <div align="center">
     <br/>
-    <form action="#" th:action="@{/pfa/save}" th:object="${pfaEntity}"
+    <form action="#" th:action="@{/user/pfa/save}" th:object="${pfaEntity}"
           method="post">
         <h1 style="color:#000000;font-size:40px;">Edit income</h1>
 
@@ -49,7 +49,7 @@
             </td>
         </tr>
         <td colspan="2">
-            <button type="submit" onclick="window.location.href = 'localhost:8080/pfa/save';">Save</button>
+            <button type="submit" onclick="window.location.href = 'localhost:8080/user/pfa/save';">Save</button>
 <!--            <a th:href="@{'/pfa/save/'+${pfaEntity.id}}">SaveBun</a>-->
         </td>
         </tr>

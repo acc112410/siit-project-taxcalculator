@@ -43,23 +43,30 @@ public class PfaController {
 
 
     @RequestMapping("/{id}")
-    public ModelAndView createCalcul(@PathVariable(name = "id") Long id) {
-
+    public ModelAndView createCalcul(@PathVariable(name = "id") Long id,Principal principal) {
+//        principal = id;
+//        if (principal.equals(id)){
         ModelAndView modelAndView = new ModelAndView("pfa");
         LoginEntity loginEntity = loginService.get(id);
         System.out.println(loginEntity.getId());
         PfaEntity pfaEntity = new PfaEntity();
         pfaEntity.setLoginId(loginEntity.getId());
         modelAndView.addObject("pfaEntity", pfaEntity);
-        return modelAndView;
-    }
+        return modelAndView;}
+//        else{
+//            ModelAndView modelAndView = new ModelAndView("blank");
+//            PfaEntity pfaEntity = new PfaEntity();
+//            modelAndView.addObject("empty",pfaEntity);
+//            return  modelAndView;
+//        }
+//    }
 
     @PostMapping("/saveCalcul")
     public RedirectView saveCalcul(PfaEntity pfaEntity) {
 
         pfaService.createPfa(pfaService.toDto(pfaEntity));
 
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
     }
 //    @PostMapping("/index/pfa")
 //    public RedirectView pfaExemplu ( PfaEntity entity){
@@ -109,7 +116,7 @@ public class PfaController {
 
         pfaService.updatePfa(pfaService.toDto(pfaEntity));
 
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
     }
 
 
@@ -126,7 +133,7 @@ public class PfaController {
         PfaEntity pfaEntity1 = pfaService.get(id);
         Long nr = pfaEntity1.getLoginId();
         pfaService.delete(id);
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(nr));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(nr));
     }
 
 

@@ -1,5 +1,6 @@
 package com.java.siit.taxcalculator.config;
 
+import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,9 +9,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
@@ -28,7 +31,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    LoginService loginService;
+    private LoginService loginService;
+
+
+//
+//    @Component("userSecurity")
+//    public class UserSecurity {
+//        public boolean hasUserId(LoginEntity loginEntity, Long id) {
+//            boolean answer;
+//            if (loginEntity.getId() == id) {
+//                answer = true;
+//            } else { answer = false;}
+//            return answer;
+//        }
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -41,11 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**/").hasRole("USER")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/index/**").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest()
                 .authenticated()
                 .and()
