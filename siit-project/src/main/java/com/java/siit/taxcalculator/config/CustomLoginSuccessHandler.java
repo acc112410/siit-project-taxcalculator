@@ -3,6 +3,7 @@ package com.java.siit.taxcalculator.config;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.repository.LoginRepository;
 
+import com.java.siit.taxcalculator.repository.business.UserRolesRepository;
 import com.java.siit.taxcalculator.service.LoginService;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     private final LoginRepository loginRepository;
     private final LoginService loginService;
+    private final UserRolesRepository userRolesRepository;
 
     
 
@@ -47,19 +49,21 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         LoginEntity login = loginRepository.getByEmail(authentication.getName());
         Long id = login.getId();
         String stringId= id.toString();
-        if(login.getUserRoles().equals(UserRoles.ADMIN)){
-            return "admin/users";
+        UserRoles userRoles = userRolesRepository.getByEmail(login.getEmail());
+        String role=userRoles.getRoles();
+        if(role.equals("ROLE_ADMIN")){
+            System.out.println("works");
+            return "/admin/";
         } else switch (login.getTypeOfBusiness()) {
             case "SRL":
-                return "srl";
+                return "user/srl";
             case "PFA":
-                return "pfa/"+stringId;
+                return "user/pfa/"+stringId;
             case "PFI":
-                return "pfi";
+                return "user/pfi";
             default:
                 return "failed";
         }
-
 
 
 

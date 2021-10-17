@@ -148,6 +148,14 @@ public class PfaService {
     public List<PfaEntity> findAll(PfaEntity pfaEntity) {
         return pfaRepository.findAll();
     }
+
+    public List<PfaEntity> findAllByLoginId(Long id) {
+        return pfaRepository.findAllByLoginId(id);
+    }
+
+    public List<PfaEntity> findAllByFiscalYearAndLoginId(Long fiscalYear, Long id) {
+        return pfaRepository.findAllByFiscalYearAndLoginId(fiscalYear, id);
+    }
 }
 
 

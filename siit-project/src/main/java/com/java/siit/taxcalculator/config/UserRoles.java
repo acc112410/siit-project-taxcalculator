@@ -1,22 +1,43 @@
 package com.java.siit.taxcalculator.config;
 
-import com.google.common.collect.Sets;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import static com.java.siit.taxcalculator.config.UserPermission.*;
 
-public enum UserRoles {
-    ADMIN(Sets.newHashSet(USER_READ, USER_WRITE)),
-    USER(Sets.newHashSet(CALCULUS_READ,CALCULUS_WRITE));
+@Entity
+@Table(name = "authorities")
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserRoles {
 
-    private final Set<UserPermission> permissions;
-
-    UserRoles(Set<UserPermission> permissions) {
-        this.permissions = permissions;
+    public String getEmail() {
+        return email;
     }
 
-    public Set<UserPermission> getPermissions() {
-        return permissions;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    @Id
+    @Column(name ="user_email")
+    private  String email;
+
+    @Column(name ="authority")
+    private  String roles;
+
 }

@@ -74,9 +74,7 @@ public class LoginService {
 //    public List<LoginEntity> getAllUsersWithBusiness(){
 //        return loginRepository.getAll();
 //    }
-        public List<LoginEntity> getAllByUserRoles () {
-            return loginRepository.getAllByUserRoles(UserRoles.USER);
-        }
+
 
 
         public LoginDTO findById ( long id){

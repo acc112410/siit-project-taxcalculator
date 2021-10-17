@@ -2,6 +2,7 @@ package com.java.siit.taxcalculator.controller.business;
 
 
 //import com.java.siit.taxcalculator.config.EmailConfiguration;
+
 import com.java.siit.taxcalculator.config.EmailConfiguration;
 import com.java.siit.taxcalculator.config.EmailSender;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
@@ -11,32 +12,18 @@ import com.java.siit.taxcalculator.repository.business.PfaRepository;
 import com.java.siit.taxcalculator.service.LoginService;
 import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
-
-import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
-import com.java.siit.taxcalculator.service.business.PfaService;
-import lombok.AllArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
-
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.MessagingException;
-import java.util.*;
-
-
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,53 +32,42 @@ import java.util.List;
 @AllArgsConstructor
 public class PfaController {
     private final PfaService pfaService;
-    private EmailConfiguration emailConfiguration;
     private final LoginService loginService;
     private final LoginRepository loginRepository;
     private final PfaRepository pfaRepository;
     private final EmailSender emailSender;
-
+    private EmailConfiguration emailConfiguration;
 
     @RequestMapping("/{id}")
-//    @PreAuthorize("@userSecurity.hasUserId(authentication, #id)")
     public ModelAndView createCalcul(@PathVariable(name = "id") Long id) {
-       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String emailTemp =loginService.findById(id).getEmail();
-       String email;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailTemp = loginService.findById(id).getEmail();
+        String email;
         if (principal instanceof UserDetails) {
-             email = ((UserDetails)principal).getUsername();
+            email = ((UserDetails) principal).getUsername();
         } else {
-             email = principal. toString();
+            email = principal.toString();
 
         }
+        if (email.equals(emailTemp)) {
 
-        if (email.equals(emailTemp)){
+            ModelAndView modelAndView = new ModelAndView("pfa");
+            LoginEntity loginEntity = loginService.get(id);
+            System.out.println(loginEntity.getId());
 
-
-    public ModelAndView createCalcul(@PathVariable(name = "id") Long id) {
-
-        ModelAndView modelAndView = new ModelAndView("pfa");
-        LoginEntity loginEntity = loginService.get(id);
-        PfaEntity pfaEntity = new PfaEntity();
-
-        pfaEntity.setLoginId(loginEntity.getId());
-
-        modelAndView.addObject("pfaEntity", pfaEntity);
-
-        return modelAndView;}
-        else {
+            PfaEntity pfaEntity = new PfaEntity();
+            pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+            pfaEntity.setLoginId(loginEntity.getId());
+            modelAndView.addObject("pfaEntity", pfaEntity);
+            return modelAndView;
+        } else {
             ModelAndView modelAndView = new ModelAndView("blank");
             PfaEntity pfaEntity = new PfaEntity();
             modelAndView.addObject("pfaEntity", pfaEntity);
-            return  modelAndView;
+            return modelAndView;
         }
 
 
-    }
-
-
-
-        return modelAndView;
     }
 
 
@@ -104,63 +80,34 @@ public class PfaController {
 
         System.out.println(pfaEntity.getTotalTaxesById());
 
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + pfaEntity.getLoginId());
     }
 
 
-
-
-    @GetMapping("/taxes/{id}")
-    public ModelAndView afisareTaxe(@PathVariable("id") Long id) {
+    @GetMapping("/taxes/{id}/{fiscalYear}")
+    public ModelAndView afisareTaxeDupaAnFiscal(@PathVariable("id") Long id, @PathVariable("fiscalYear") Long fiscalYear) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String emailTemp =loginService.findById(id).getEmail();
+        String emailTemp = loginService.findById(id).getEmail();
         String email;
         if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
+            email = ((UserDetails) principal).getUsername();
         } else {
-            email = principal. toString();
+            email = principal.toString();
 
         }
 
-        if (email.equals(emailTemp)){
-
-        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
-        List<PfaEntity> lista = pfaService.findAllByLoginId(id);
-        modelAndView.addObject("pfaLista", lista);
-        return modelAndView;}
-        else {
+        if (email.equals(emailTemp)) {
+            ModelAndView modelAndView = new ModelAndView("pfaTaxes2");
+            List<PfaEntity> listAni = pfaService.findAllByLoginId(id);
+            List<PfaEntity> lista = pfaService.findAllByFiscalYearAndLoginId(fiscalYear, id);
+            modelAndView.addObject("pfaLista", lista);
+            modelAndView.addObject("pfaLista2", listAni);
+            return modelAndView;
+        } else {
             ModelAndView modelAndView = new ModelAndView("blank");
             PfaEntity pfaEntity = new PfaEntity();
             modelAndView.addObject("pfaEntity", pfaEntity);
-            return  modelAndView;
-        }
-
-    }
-
-    @GetMapping ("/taxes/{id}/{fiscalYear}")
-    public ModelAndView afisareTaxeDupaAnFiscal(@PathVariable("id") Long id, @PathVariable("fiscalYear") Long fiscalYear){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String emailTemp =loginService.findById(id).getEmail();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        } else {
-            email = principal. toString();
-
-        }
-
-        if (email.equals(emailTemp)){
-        ModelAndView modelAndView = new ModelAndView("pfaTaxes2");
-        List<PfaEntity> listAni = pfaService.findAllByLoginId(id);
-        List <PfaEntity> lista = pfaService.findAllByFiscalYearAndLoginId(fiscalYear,id);
-        modelAndView.addObject("pfaLista", lista);
-        modelAndView.addObject("pfaLista2",listAni);
-        return modelAndView;}
-        else {
-            ModelAndView modelAndView = new ModelAndView("blank");
-            PfaEntity pfaEntity = new PfaEntity();
-            modelAndView.addObject("pfaEntity", pfaEntity);
-            return  modelAndView;
+            return modelAndView;
         }
     }
 
@@ -173,7 +120,7 @@ public class PfaController {
         pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
         System.out.println(pfaEntity.getTotalTaxesById());
 
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + pfaEntity.getLoginId());
     }
 
     @PostMapping("/saveFiscalYear")
@@ -182,7 +129,7 @@ public class PfaController {
         saveTotalTaxes(pfaEntity);
         pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
         System.out.println(pfaEntity.getTotalTaxesById());
-        return new RedirectView("http://localhost:8080/pfa/taxes/fiscalYear/" + Long.toString(pfaEntity.getFiscalYear()));
+        return new RedirectView("http://localhost:8080/pfa/taxes/fiscalYear/" + pfaEntity.getFiscalYear());
     }
 
     @RequestMapping("/edit/{id}")
@@ -191,8 +138,8 @@ public class PfaController {
 
         PfaEntity pfaEntity = pfaService.get(id);
         modelAndView.addObject("pfaEntity", pfaEntity);
-        return modelAndView;}
-
+        return modelAndView;
+    }
 
 
     @RequestMapping("/taxes/fiscalYear/{id}}")
@@ -222,42 +169,51 @@ public class PfaController {
 
 
     @RequestMapping("/delete/{id}")
-
     public RedirectView deleteTaxes(@PathVariable(name = "id") Long id) {
 
         PfaEntity pfaEntity1 = pfaService.get(id);
         Long nr = pfaEntity1.getLoginId();
         pfaService.delete(id);
-        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(nr));}
-    public RedirectView deleteTaxes(@PathVariable(name = "id") Long id, PfaEntity pfaEntity) {
-        PfaEntity pfaEntity1 = pfaService.get(id);
-        Long nr = pfaEntity1.getLoginId();
-        pfaService.delete(id);
-        System.out.println(pfaEntity.getTotalTaxesById());
-        return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(nr));
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + nr);
     }
 
 
     @GetMapping("/taxes/{id}")
     public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
-        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
-        saveTotalTaxes(pfaEntity);
-        pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailTemp = loginService.findById(id).getEmail();
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
 
-        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
-        List<PfaEntity> list = new ArrayList<PfaEntity>();
-
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getLoginId() == id) {
-                list.add(lista.get(i));
-            }
         }
-        modelAndView.addObject("pfaLista", list);
-        modelAndView.addObject("pfaEntity", pfaEntity);
-        return modelAndView;
+
+        if (email.equals(emailTemp)) {
+            ModelAndView modelAndView = new ModelAndView("pfaTaxes");
+            saveTotalTaxes(pfaEntity);
+            pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+
+            List<PfaEntity> lista = pfaService.findAll(pfaEntity);
+            List<PfaEntity> list = new ArrayList<PfaEntity>();
+
+            for (int i = 0; i < lista.size(); i++) {
+                if (lista.get(i).getLoginId() == id) {
+                    list.add(lista.get(i));
+                }
+            }
+            modelAndView.addObject("pfaLista", list);
+            modelAndView.addObject("pfaEntity", pfaEntity);
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("blank");
+            ;
+            modelAndView.addObject("pfaEntity", null);
+            return modelAndView;
+        }
+
     }
-
-
 
 //    @GetMapping
 //    public ModelAndView getPage() {
@@ -268,19 +224,7 @@ public class PfaController {
 //        return modelAndView;
 //    }
 
-    @PostMapping()
-    public ModelAndView createCalcul(PfaEntity pfaEntity) {
-        ModelAndView modelAndView = new ModelAndView();
-        pfaService.createPfa(pfaEntity);
-        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
-        List<Long> pfaTaxesByID = new ArrayList<>();
 
-//        methodThatSumAllTaxes(pfaEntity, lista, pfaTaxesByID);
-
-        modelAndView.addObject("pfaEntity", new PfaEntity());
-        modelAndView.setViewName("pfa");
-        return modelAndView;
-    }
 
     private long saveTotalTaxes(PfaEntity pfaEntity) {
         List<PfaEntity> lista = pfaService.findAll(pfaEntity);
@@ -291,7 +235,7 @@ public class PfaController {
             pfaTaxesByID.add(lista.get(i).getTaxesTotal());
         }
 
-        for(int i =0; i<pfaTaxesByID.size();i++)
+        for (int i = 0; i < pfaTaxesByID.size(); i++)
             sum += pfaTaxesByID.get(i);
 
 //        pfaEntity.setTotalTaxesById(sum);
@@ -311,10 +255,7 @@ public class PfaController {
 
     @PostMapping("/sendEmail")
     public void sendFeedback() throws MessagingException {
-       emailSender.sendEmail();
+        emailSender.sendEmail();
     }
-
-
-    // @RequestMapping("/edit/{id}")     public ModelAndView loginEdit(@PathVariable(name = "id") Long id) {         ModelAndView modelAndView = new ModelAndView("editPfaTaxes");         PfaEntity pfaEntity = pfaService.get(id);         pfaService.delete(id);         modelAndView.addObject("pfaEntity", pfaEntity);         return modelAndView;     }
 }
 
