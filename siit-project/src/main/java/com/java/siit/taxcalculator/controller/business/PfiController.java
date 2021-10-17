@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/user/pfi")
+@RequestMapping("/pfi")
 @AllArgsConstructor
 
 public class PfiController {

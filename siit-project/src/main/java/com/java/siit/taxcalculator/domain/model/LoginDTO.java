@@ -17,8 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginDTO {
-
-
     private long id;
 
 
@@ -32,15 +30,10 @@ public class LoginDTO {
     private String password;
 
 
-    private boolean enabled;
+    private String enabled;
 
     private String typeOfBusiness;
 
+    private List<PfaDTO> pfaDTOList;
 
-
-
-
-    public boolean getEnabled() {
-        return enabled;
-    }
 }

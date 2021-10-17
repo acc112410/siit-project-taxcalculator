@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
                     .enabled(loginEntity.getEnabled())
                     .id(loginEntity.getId())
                     .password(loginEntity.getPassword())
-
                     .build();
         }
 

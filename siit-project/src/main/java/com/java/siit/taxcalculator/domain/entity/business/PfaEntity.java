@@ -36,7 +36,6 @@ public class PfaEntity {
     @Column(name = "cui")
     private long cui;
 
-
     @Column(name = "CASS")
     private int CASS;
 
@@ -58,6 +57,12 @@ public class PfaEntity {
 
     @Column(name = "login_Id")
     private long loginId;
+
+    @Column(name = "taxes_Total")
+    private long taxesTotal;
+
+    @Column(name = "total_Taxes_By_ID")
+    private long totalTaxesById;
 
 
 }

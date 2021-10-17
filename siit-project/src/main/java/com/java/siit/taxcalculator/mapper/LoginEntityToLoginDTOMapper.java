@@ -22,7 +22,6 @@ public class LoginEntityToLoginDTOMapper implements Converter<LoginEntity, Login
                 .id(loginEntity.getId())
                 .password(loginEntity.getPassword())
 
-
         .build();
     }
 

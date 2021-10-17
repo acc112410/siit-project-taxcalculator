@@ -1,6 +1,5 @@
 package com.java.siit.taxcalculator.mapper;
 
-import com.java.siit.taxcalculator.config.UserRoles;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.model.LoginDTO;
 import org.springframework.core.convert.converter.Converter;

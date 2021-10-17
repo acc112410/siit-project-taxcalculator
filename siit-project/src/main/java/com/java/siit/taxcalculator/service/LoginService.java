@@ -5,9 +5,6 @@ import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.repository.LoginRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class LoginService  {
+public class LoginService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -66,8 +63,9 @@ public class LoginService  {
 
     public void delete(Long id) {
         loginRepository.deleteById(id);
-    }
 
+
+    }
 
 
     public List<LoginEntity> getAllUsersWithBusiness() {
@@ -76,9 +74,9 @@ public class LoginService  {
 //    public List<LoginEntity> getAllUsersWithBusiness(){
 //        return loginRepository.getAll();
 //    }
-//        public List<LoginEntity> getAllByUserRoles () {
-//            return loginRepository.getAllByUserRoles(UserRoles.USER.name());
-//        }
+        public List<LoginEntity> getAllByUserRoles () {
+            return loginRepository.getAllByUserRoles(UserRoles.USER);
+        }
 
 
         public LoginDTO findById ( long id){
@@ -95,6 +93,4 @@ public class LoginService  {
 
 
         }
-
-
-}
+    }

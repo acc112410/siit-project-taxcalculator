@@ -1,7 +1,5 @@
 package com.java.siit.taxcalculator.config;
 
-import com.java.siit.taxcalculator.domain.entity.LoginEntity;
-import com.java.siit.taxcalculator.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
@@ -30,8 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private LoginService loginService;
+    @Value("${myapp.queries.users-query}")
+    private String usersQuery;
 
 
 //
@@ -49,8 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT user_email, user_password, enabled " +"FROM login " +"WHERE user_email= ?").authoritiesByUsernameQuery("SELECT user_email, authority "+ "FROM authorities "+ "WHERE user_email= ?").passwordEncoder(bCryptPasswordEncoder);
 
-    }
 
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery("SELECT user_email, 'ROLE_USER' FROM login WHERE user_email=?")
+                .dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);
+
+
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,9 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**/{id}").hasRole("USER")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/index/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/index").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .csrf().disable().formLogin()
                 .loginPage("/login")

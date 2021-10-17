@@ -1,27 +1,35 @@
 package com.java.siit.taxcalculator.controller;
 
 
-import com.java.siit.taxcalculator.config.UserRoles;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
-import com.java.siit.taxcalculator.domain.model.business.PfaDTO;
 import com.java.siit.taxcalculator.service.LoginService;
-import com.java.siit.taxcalculator.service.UserRolesService;
-import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.java.siit.taxcalculator.domain.model.LoginDTO;
+import com.java.siit.taxcalculator.config.UserRoles;
+import com.java.siit.taxcalculator.domain.model.LoginDTO;
 import com.java.siit.taxcalculator.mapper.LoginEntityToLoginDTOMapper;
+import com.java.siit.taxcalculator.domain.entity.LoginEntity;
+import com.java.siit.taxcalculator.service.LoginService;
 import javassist.NotFoundException;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
+
+
+import java.util.List;
 
 
 @Controller
@@ -31,13 +39,6 @@ public class LoginController {
 
     @Autowired
     private final LoginService service;
-
-
-    @Autowired
-    private final PfaService pfaService;
-
-    @Autowired
-    private final UserRolesService userRolesService;
 
 
 
@@ -63,23 +64,17 @@ public class LoginController {
 
 
     @GetMapping("/index")
-    public ModelAndView homepagePFA () {
-
-        ModelAndView modelAndView = new ModelAndView("homepage2");
-        PfaEntity pfaEntity = new PfaEntity();
-        modelAndView.addObject("pfaEntity", pfaEntity);
-
-        return modelAndView;
+    public String index() {
+        return "/index";
     }
-    @GetMapping("/index/srl")
-    public ModelAndView homepageSRL () {
 
-        ModelAndView modelAndView = new ModelAndView("homepage3");
-        PfaEntity pfaEntity = new PfaEntity();
-        modelAndView.addObject("pfaEntity", pfaEntity);
 
-        return modelAndView;
-    }
+//    @GetMapping("/users")
+//    public String getAllUsersWithBusiness(Model model) {
+//        List<LoginEntity> users = service.getAllUsersWithBusiness();
+//        model.addAttribute("users", users);
+//        return "users";
+//    }
 
 
     @GetMapping("/user/delete/{id}")
@@ -120,9 +115,7 @@ public class LoginController {
     @PostMapping("/register")
     public ModelAndView create(LoginEntity loginEntity, BindingResult bindingResult, ModelMap modelMap) {
 
-        System.out.println("login " + loginEntity);
-        loginEntity.setEnabled(true);
-
+        loginEntity.setEnabled("true");
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("successMessage", "Please correct the errors in form!");
@@ -135,7 +128,7 @@ public class LoginController {
             modelAndView.addObject("successMessage", "User is registered successfully!");
         }
         modelAndView.addObject("loginEntity", new LoginEntity());
-        userRolesService.create(loginEntity);
+
         modelAndView.setViewName("register");
         return modelAndView;
     }

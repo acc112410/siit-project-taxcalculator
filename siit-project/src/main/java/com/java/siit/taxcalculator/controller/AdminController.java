@@ -1,7 +1,6 @@
 package com.java.siit.taxcalculator.controller;
 
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
-import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
 import com.java.siit.taxcalculator.domain.model.LoginDTO;
 import com.java.siit.taxcalculator.service.LoginService;
 import javassist.NotFoundException;
@@ -24,14 +23,6 @@ public class AdminController {
     @Autowired
     private final LoginService service ;
 
-    @GetMapping("/")
-    public ModelAndView adminHome (){
-        ModelAndView modelAndView = new ModelAndView("admin");
-        PfaEntity pfa = new PfaEntity();
-        modelAndView.addObject("pfaEntity", pfa);
-        return modelAndView;
-    }
-
     @GetMapping("/users")
     public String getAllUsersWithBusiness(Model model) {
         List<LoginEntity> users = service.getAllUsersWithBusiness();
@@ -46,5 +37,4 @@ public class AdminController {
         mav.addObject("login", login);
         return mav;
     }
-
 }

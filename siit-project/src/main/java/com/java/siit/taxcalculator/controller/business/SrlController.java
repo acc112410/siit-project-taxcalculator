@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/user/srl")
+@RequestMapping("/srl")
 @AllArgsConstructor
 public class SrlController {
 

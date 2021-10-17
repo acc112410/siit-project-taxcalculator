@@ -1,4 +1,4 @@
-package com.java.siit.taxcalculator;
+package com.java.siit;
 
 
 import org.modelmapper.ModelMapper;
