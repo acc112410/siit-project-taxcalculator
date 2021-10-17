@@ -20,7 +20,7 @@ public class PfaDTO {
     private long cui;
     private int income;
 
-    private String name;
+
 
     private int CASS;
     private int CAS;

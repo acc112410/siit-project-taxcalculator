@@ -15,5 +15,4 @@ public interface PfaRepository extends JpaRepository<PfaEntity, Long> {
     PfaEntity deletePfaEntityById(int id);
     List<PfaEntity> findAllByLoginId(long loginId);
     List<PfaEntity> findAllByFiscalYearAndLoginId(long fiscalYear, long loginId);
-
 }

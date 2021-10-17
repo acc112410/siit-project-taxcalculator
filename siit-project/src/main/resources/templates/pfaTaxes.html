@@ -71,9 +71,9 @@
         <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxesPerMonth}"/>
         <td style="background-color: aqua" th:text="${pfaEntity.dividendTaxesPerMonth}"/>
         <td>
-            <a th:href="@{'/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
+            <a th:href="@{'/user/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
             &nbsp;&nbsp;&nbsp;
-            <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">x</a>
+            <a th:href="@{'/user/pfa/delete/' + ${pfaEntity.id}}">x</a>
         </td>
 
     </tr>
@@ -95,7 +95,7 @@
     <tr th:each="pfaEntity : ${pfaLista}">
         <td  style="background-color: #e75f5f" th:text="${pfaEntity.fiscalYear}"/>
         <td>
-            <a th:href="@{'/pfa/taxes/'+${pfaEntity.loginId} +'/' +${pfaEntity.fiscalYear}}" class="btn btn-primary btn-block">Select</a>
+            <a th:href="@{'/user/pfa/taxes/'+${pfaEntity.loginId} +'/' +${pfaEntity.fiscalYear}}" class="btn btn-primary btn-block">Select</a>
         </td>
 
 

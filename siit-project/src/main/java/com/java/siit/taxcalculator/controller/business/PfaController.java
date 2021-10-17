@@ -10,12 +10,15 @@ import com.java.siit.taxcalculator.service.LoginService;
 import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
 //import org.jetbrains.annotations.NotNull;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
 import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +46,21 @@ public class PfaController {
 
 
     @RequestMapping("/{id}")
-    public ModelAndView createCalcul(@PathVariable(name = "id") Long id,Principal principal) {
-//        principal = id;
-//        if (principal.equals(id)){
+//    @PreAuthorize("@userSecurity.hasUserId(authentication, #id)")
+    public ModelAndView createCalcul(@PathVariable(name = "id") Long id) {
+       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailTemp =loginService.findById(id).getEmail();
+       String email;
+        if (principal instanceof UserDetails) {
+             email = ((UserDetails)principal).getUsername();
+        } else {
+             email = principal. toString();
+
+        }
+
+        if (email.equals(emailTemp)){
+
+
         ModelAndView modelAndView = new ModelAndView("pfa");
         LoginEntity loginEntity = loginService.get(id);
         System.out.println(loginEntity.getId());
@@ -53,13 +68,17 @@ public class PfaController {
         pfaEntity.setLoginId(loginEntity.getId());
         modelAndView.addObject("pfaEntity", pfaEntity);
         return modelAndView;}
-//        else{
-//            ModelAndView modelAndView = new ModelAndView("blank");
-//            PfaEntity pfaEntity = new PfaEntity();
-//            modelAndView.addObject("empty",pfaEntity);
-//            return  modelAndView;
-//        }
-//    }
+        else {
+            ModelAndView modelAndView = new ModelAndView("blank");
+            PfaEntity pfaEntity = new PfaEntity();
+            modelAndView.addObject("pfaEntity", pfaEntity);
+            return  modelAndView;
+        }
+
+
+    }
+
+
 
     @PostMapping("/saveCalcul")
     public RedirectView saveCalcul(PfaEntity pfaEntity) {
@@ -68,47 +87,61 @@ public class PfaController {
 
         return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
     }
-//    @PostMapping("/index/pfa")
-//    public RedirectView pfaExemplu ( PfaEntity entity){
-//        entity.setId(0);
-//        pfaService.createPfa(pfaService.toDto(entity));
-//        return new RedirectView("http://localhost:8080/index/pfa/0");
-//
-//    }
-//    @RequestMapping("/index/pfa/0")
-//    public ModelAndView raspunsPfaExemplu (){
-//        ModelAndView modelAndView = new ModelAndView("homepage2");
-//
-//        PfaEntity pfaEntity = pfaService.getPfaEntityById(0);
-//        modelAndView.addObject("pfaEntity", pfaEntity);
-//        pfaService.deletePfaEntityById(0);
-//        return modelAndView;
-//    }
+
 
 
     @GetMapping("/taxes/{id}")
-    public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
+    public ModelAndView afisareTaxe(@PathVariable("id") Long id) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailTemp =loginService.findById(id).getEmail();
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails)principal).getUsername();
+        } else {
+            email = principal. toString();
+
+        }
+
+        if (email.equals(emailTemp)){
+
         ModelAndView modelAndView = new ModelAndView("pfaTaxes");
         List<PfaEntity> lista = pfaService.findAllByLoginId(id);
-//        List<PfaEntity> list = new ArrayList<PfaEntity>();
-//
-//        for (int i = 0; i < lista.size(); i++) {
-//            if (lista.get(i).getLoginId() == id) {
-//                list.add(lista.get(i));
-//            }
-//        }
         modelAndView.addObject("pfaLista", lista);
-        return modelAndView;
+        return modelAndView;}
+        else {
+            ModelAndView modelAndView = new ModelAndView("blank");
+            PfaEntity pfaEntity = new PfaEntity();
+            modelAndView.addObject("pfaEntity", pfaEntity);
+            return  modelAndView;
+        }
+
     }
 
     @GetMapping ("/taxes/{id}/{fiscalYear}")
     public ModelAndView afisareTaxeDupaAnFiscal(@PathVariable("id") Long id, @PathVariable("fiscalYear") Long fiscalYear){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String emailTemp =loginService.findById(id).getEmail();
+        String email;
+        if (principal instanceof UserDetails) {
+            email = ((UserDetails)principal).getUsername();
+        } else {
+            email = principal. toString();
+
+        }
+
+        if (email.equals(emailTemp)){
         ModelAndView modelAndView = new ModelAndView("pfaTaxes2");
         List<PfaEntity> listAni = pfaService.findAllByLoginId(id);
         List <PfaEntity> lista = pfaService.findAllByFiscalYearAndLoginId(fiscalYear,id);
         modelAndView.addObject("pfaLista", lista);
         modelAndView.addObject("pfaLista2",listAni);
-        return modelAndView;
+        return modelAndView;}
+        else {
+            ModelAndView modelAndView = new ModelAndView("blank");
+            PfaEntity pfaEntity = new PfaEntity();
+            modelAndView.addObject("pfaEntity", pfaEntity);
+            return  modelAndView;
+        }
     }
 
     @PostMapping("/save")
@@ -125,28 +158,31 @@ public class PfaController {
         ModelAndView modelAndView = new ModelAndView("editPfaTaxes");
         PfaEntity pfaEntity = pfaService.get(id);
         modelAndView.addObject("pfaEntity", pfaEntity);
-        return modelAndView;
-    }
+        return modelAndView;}
+
+
 
     @RequestMapping("/delete/{id}")
-    public RedirectView deleteTaxes(@PathVariable(name = "id") Long id,PfaEntity pfaEntity) {
+    public RedirectView deleteTaxes(@PathVariable(name = "id") Long id) {
+
         PfaEntity pfaEntity1 = pfaService.get(id);
         Long nr = pfaEntity1.getLoginId();
         pfaService.delete(id);
-        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(nr));
-    }
+        return new RedirectView("http://localhost:8080/user/pfa/taxes/" + Long.toString(nr));}
 
 
 
 
-    @GetMapping
-    public ModelAndView getPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        PfaEntity pfaEntity = new PfaEntity();
-        modelAndView.addObject("pfaEntity", pfaEntity);
-        modelAndView.setViewName("pfa");
-        return modelAndView;
-    }
+
+
+//    @GetMapping
+//    public ModelAndView getPage() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        PfaEntity pfaEntity = new PfaEntity();
+//        modelAndView.addObject("pfaEntity", pfaEntity);
+//        modelAndView.setViewName("pfa");
+//        return modelAndView;
+//    }
 
     @PostMapping()
     public ModelAndView createCalcul(PfaEntity pfaEntity) {

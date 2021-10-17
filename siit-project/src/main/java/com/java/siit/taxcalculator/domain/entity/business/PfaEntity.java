@@ -37,16 +37,6 @@ public class PfaEntity {
     private long cui;
 
 
-
-//    @Column(name = "email")
-//    private String email;
-
-
-//    @Email(message = "Email should be valid")
-//    @Column(name = "email")
-//    private String email;
-
-
     @Column(name = "CASS")
     private int CASS;
 

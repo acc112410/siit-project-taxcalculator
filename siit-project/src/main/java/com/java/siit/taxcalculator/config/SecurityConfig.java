@@ -45,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            return answer;
 //        }
 //    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT user_email, user_password, enabled " +"FROM login " +"WHERE user_email= ?").authoritiesByUsernameQuery("SELECT user_email, authority "+ "FROM authorities "+ "WHERE user_email= ?").passwordEncoder(bCryptPasswordEncoder);
@@ -58,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**/").hasRole("USER")
+                .antMatchers("/user/**/{id}").hasRole("USER")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/index/**").permitAll()

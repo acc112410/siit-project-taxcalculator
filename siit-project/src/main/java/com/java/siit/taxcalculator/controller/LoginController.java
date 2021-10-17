@@ -55,6 +55,12 @@ public class LoginController {
         return "/login";
     }
 
+    @GetMapping("/accessDenied")
+    public ModelAndView accessDenied(){ ModelAndView modelAndView = new ModelAndView("blank");
+        PfaEntity pfaEntity = new PfaEntity();
+        modelAndView.addObject("pfaEntity", pfaEntity);
+        return  modelAndView;}
+
 
     @GetMapping("/index")
     public ModelAndView homepagePFA () {

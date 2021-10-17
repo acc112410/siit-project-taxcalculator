@@ -36,7 +36,7 @@ public class LoginDTO {
 
     private String typeOfBusiness;
 
-    private String userRoles;
+
 
 
 

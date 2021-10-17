@@ -98,9 +98,7 @@ public class PfaService {
     public PfaEntity getPfaEntityById( int id) {return pfaRepository.getPfaEntityById( id);}
 
     public PfaEntity deletePfaEntityById(int id) {return pfaRepository.deletePfaEntityById(id);}
-//    public PfaEntity getById(Long loginId) {
-//        return pfaRepository.findById(loginId).get();
-//    }
+
 
     public void delete(Long id) {
         pfaRepository.deleteById(id);
@@ -117,9 +115,7 @@ public class PfaService {
         pfaRepository.delete(pfaEntity);
     }
 
-//    public List<PfaEntity> findByLoginId(Long id) {
-//        return pfaRepository.findAllByLoginId();
-//    }
+
     public List<PfaEntity> findAll(PfaEntity pfaEntity) {
         return pfaRepository.findAll();
     }

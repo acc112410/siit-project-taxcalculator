@@ -27,14 +27,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class SrlController {
 
     private final SrlService srlService;
-    @GetMapping
-    public ModelAndView getPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        SrlEntity srlEntity = new SrlEntity();
-        modelAndView.addObject("srlEntity", srlEntity);
-        modelAndView.setViewName("srl");
-        return modelAndView;
-    }
+//    @GetMapping
+//    public ModelAndView getPage() {
+//        ModelAndView modelAndView = new ModelAndView();
+//        SrlEntity srlEntity = new SrlEntity();
+//        modelAndView.addObject("srlEntity", srlEntity);
+//        modelAndView.setViewName("srl");
+//        return modelAndView;
+//    }
 
     @PostMapping()
     public ModelAndView createCalcul(SrlEntity srlEntity) {
