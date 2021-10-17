@@ -27,9 +27,10 @@ public class PfaDTO {
     private long incomeTaxes;
     private long incomeTaxesPerMonth;
     private long dividendTaxesPerMonth;
-
+    private long taxesTotal;
     private long fiscalYear;
     private long loginId;
+    private long totalTaxesById;
 
 
 }

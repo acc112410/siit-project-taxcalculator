@@ -92,10 +92,10 @@
         <td th:text="${user.lastName}">Default</td>
         <td th:text="${user.typeOfBusiness}">Default</td>
         <td>
-            <a  th:href="@{/users/edit/{id}(id=${user.id})}" class="button button1"><span>Edit</span></a>
+            <a  th:href="@{/admin/users/edit/{id}(id=${user.id})}" class="button button1"><span>Edit</span></a>
         </td>
         <td>
-            <a  th:href="@{/user/delete/{id}(id=${user.id})}" class="button button1"><span>Delete</span></a>
+            <a  th:href="@{/admin/user/delete/{id}(id=${user.id})}" class="button button1"><span>Delete</span></a>
         </td>
     </tr>
 

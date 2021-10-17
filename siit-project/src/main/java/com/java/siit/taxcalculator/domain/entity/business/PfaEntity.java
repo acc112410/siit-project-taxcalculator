@@ -36,16 +36,8 @@ public class PfaEntity {
     @Column(name = "cui")
     private long cui;
 
-
-
-//    @Column(name = "email")
-//    private String email;
-
-
-//    @Email(message = "Email should be valid")
-//    @Column(name = "email")
-//    private String email;
-
+   // @Column(name = "email")
+  //  private String email;
 
     @Column(name = "CASS")
     private int CASS;
@@ -68,6 +60,12 @@ public class PfaEntity {
 
     @Column(name = "login_Id")
     private long loginId;
+
+    @Column(name = "taxes_Total")
+    private long taxesTotal;
+
+    @Column(name = "total_Taxes_By_ID")
+    private long totalTaxesById;
 
 
 }

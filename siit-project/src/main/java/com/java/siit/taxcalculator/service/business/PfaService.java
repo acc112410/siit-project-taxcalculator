@@ -10,16 +10,9 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import com.java.siit.taxcalculator.domain.entity.LoginEntity;
-import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
-import com.java.siit.taxcalculator.repository.business.PfaRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -43,6 +36,7 @@ public class PfaService {
                 .incomeTaxes((dto.getIncome() * 10 / 100))
                 .incomeTaxesPerMonth((dto.getIncome() * 0))
                 .dividendTaxesPerMonth((dto.getIncome() * 0))
+                .taxesTotal((dto.getIncome() * 25 / 100) + (dto.getIncome() * 10 / 100) + (dto.getIncome() * 10 / 100))
                 .build());
 
     }
@@ -52,12 +46,13 @@ public class PfaService {
                 .id(dto.getId())
                 .loginId(dto.getLoginId())
                 .income(dto.getIncome())
-//                .fiscalYear(dto.getFiscalYear())
+                .fiscalYear(dto.getFiscalYear())
                 .CAS((dto.getIncome() * 25 / 100))
                 .CASS((dto.getIncome() * 10 / 100))
                 .incomeTaxes((dto.getIncome() * 10 / 100))
                 .incomeTaxesPerMonth((dto.getIncome() * 0))
                 .dividendTaxesPerMonth((dto.getIncome() * 0))
+                .taxesTotal((dto.getIncome() * 25 / 100) + (dto.getIncome() * 10 / 100) + (dto.getIncome() * 10 / 100))
                 .build());
     }
 
@@ -72,11 +67,36 @@ public class PfaService {
                 .incomeTaxes((dto.getIncome() * 10 / 100))
                 .incomeTaxesPerMonth((dto.getIncome() * 0))
                 .dividendTaxesPerMonth((dto.getIncome() * 0))
+                .taxesTotal((dto.getIncome() * 25 / 100) + (dto.getIncome() * 10 / 100) + (dto.getIncome() * 10 / 100))
                 .build());
     }
 
-
-
+    //    public long sumTaxes(PfaEntity pfaEntity) {
+//        int sum=0;
+//        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
+//        List<Long> pfaTaxesByID = new ArrayList<>();
+//        for()
+//        List<Long> taxesSum = Arrays.asList(pfaEntity.getTaxesTotal());
+//        Integer sum = taxesSum.stream().mapToInt(Long::intValue)
+//                .sum();
+//        pfaEntity.setTotalTaxesById(sum);
+//        System.out.println("Total : " +sum);
+//        return sum;
+//    }
+//    public void methodThatAddAllTaxesForASpecificID(PfaEntity pfaEntity) {
+//        List<PfaEntity> lista = pfaRepository.findAll();
+//        List<Long> pfaTaxesByID = new ArrayList<>();
+//        int sum = 0;
+//        for (int i = 0; i < lista.size(); i++) {
+//            pfaTaxesByID.add(lista.get(i).getTaxesTotal());
+//        }
+//
+//        for (int i = 0; i < pfaTaxesByID.size(); i++)
+//            sum += pfaTaxesByID.get(i);
+//
+//        pfaEntity.setTotalTaxesById(sum);
+//
+//    }
 
     public void save(PfaEntity pfaEntity) {
         pfaRepository.save(pfaEntity);
@@ -95,6 +115,10 @@ public class PfaService {
         return pfaRepository.findById(id).get();
     }
 
+//    public List<PfaEntity> getAllFromFiscalYear(Long fiscalYear) {
+//        return pfaRepository.findByFiscalYear();
+//    }
+
 //    public PfaEntity getById(Long loginId) {
 //        return pfaRepository.findById(loginId).get();
 //    }
@@ -111,7 +135,7 @@ public class PfaService {
         pfaRepository.delete(pfaEntity);
     }
 
-//    public List<PfaEntity> findByLoginId(Long id) {
+    //    public List<PfaEntity> findByLoginId(Long id) {
 //        return pfaRepository.findAllByLoginId();
 //    }
     public List<PfaEntity> findAll(PfaEntity pfaEntity) {

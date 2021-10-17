@@ -11,6 +11,10 @@ import java.util.List;
 public interface PfaRepository extends JpaRepository<PfaEntity, Long> {
     List<PfaEntity> findAll();
 
+    List<PfaEntity> getAllByLoginId(long id);
+
+//    List<PfaEntity> findByFiscalYear();
+
 //    List<PfaEntity> findAllByLoginId();
 
 }
