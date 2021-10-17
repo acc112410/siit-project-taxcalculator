@@ -205,8 +205,8 @@ public class PfaController {
         return modelAndView;
     }
 
-    @GetMapping("/sendEmail")
-    public void sendFeedback(ModelAndView modelAndView, ModelMap modelMap,BindingResult bindingResult) throws MessagingException {
+    @PostMapping("/sendEmail")
+    public void sendFeedback() throws MessagingException {
        emailSender.sendEmail();
     }
 
