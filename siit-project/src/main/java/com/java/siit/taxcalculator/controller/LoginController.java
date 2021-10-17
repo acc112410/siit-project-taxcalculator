@@ -86,23 +86,6 @@ public class LoginController {
         return mav;
     }
 
-
-    //    @GetMapping("/users")
-//    public void getAllUsersWithBusiness(){
-//  service.getAllUsersWithBusiness().forEach(
-//                x -> loginEntityToLoginDTOMapper.convert(x)
-//        );
-//    }
-//    @GetMapping("/admin")
-//    public String editUserList(Model model) {
-//        List<LoginEntity> list = service.getAllByUserRoles();
-//        model.addAttribute("userList", list);
-//
-//        return "admin";
-//
-//    }
-
-
             @GetMapping("/register")
             public ModelAndView register () {
 
@@ -125,7 +108,6 @@ public class LoginController {
     @PostMapping("/register")
     public ModelAndView create(LoginEntity loginEntity, BindingResult bindingResult, ModelMap modelMap) {
 
-        System.out.println("login " + loginEntity);
         loginEntity.setEnabled("true");
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {

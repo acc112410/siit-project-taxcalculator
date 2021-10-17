@@ -12,13 +12,9 @@ import org.springframework.stereotype.Component;
 @Setter
 public class EmailConfiguration {
 
-    @Value("${smtp.mailtrap.io}")
-    private String host;
-    @Value("${2525}")
-    private int port;
-    @Value("${ff260f01528530}")
-    private String username;
-    @Value("${03b462328e3a89}")
-    private String password;
+    private final String host = "smtp.mailtrap.io";
+    private final int port = 2525;
+    private final String username = "5ff4c04399370e";
+    private final String password ="92ebf02e069c56";
 
 }

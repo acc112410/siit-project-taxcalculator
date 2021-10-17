@@ -103,9 +103,7 @@
     <th style="background-color:#00588CFF" scope="row">Total taxes</th>
     <td style="background-color: #42b9b9" th:text="${pfaEntity.getTotalTaxesById()}"/>
     <th style="background-color: #83b942">
-        <buton>
-            <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">Send taxes on Email</a>
-        </buton>
+        <input type="button" id="btnShowMsg" value="Send Email" onclick="showMessage()" />
     </th>
 
 <!--    <buton>-->
@@ -141,7 +139,15 @@
 </body>
 </html>
 
-
+<script type="text/javascript">
+    function showMessage() {
+        const Http = new XMLHttpRequest();
+        const url='http://localhost:8080/pfa/sendEmail';
+        Http.open("GET", url);
+        Http.send();
+        alert("Email sent");
+    }
+</script>
 
 
 

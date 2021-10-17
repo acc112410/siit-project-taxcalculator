@@ -3,8 +3,11 @@ package com.java.siit.taxcalculator.controller.business;
 
 //import com.java.siit.taxcalculator.config.EmailConfiguration;
 import com.java.siit.taxcalculator.config.EmailConfiguration;
+import com.java.siit.taxcalculator.config.EmailSender;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
+import com.java.siit.taxcalculator.repository.LoginRepository;
+import com.java.siit.taxcalculator.repository.business.PfaRepository;
 import com.java.siit.taxcalculator.service.LoginService;
 import com.java.siit.taxcalculator.service.business.PfaService;
 import lombok.AllArgsConstructor;
@@ -12,13 +15,17 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
 import java.util.*;
 
 
@@ -32,6 +39,9 @@ public class PfaController {
     private final PfaService pfaService;
     private EmailConfiguration emailConfiguration;
     private final LoginService loginService;
+    private final LoginRepository loginRepository;
+    private final PfaRepository pfaRepository;
+    private final EmailSender emailSender;
 
 
     @RequestMapping("/{id}")
@@ -60,24 +70,7 @@ public class PfaController {
     }
 
 
-    @GetMapping("/taxes/{id}")
-    public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
-        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
-        saveTotalTaxes(pfaEntity);
-        pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
 
-        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
-        List<PfaEntity> list = new ArrayList<PfaEntity>();
-
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).getLoginId() == id) {
-                list.add(lista.get(i));
-            }
-        }
-        modelAndView.addObject("pfaLista", list);
-        modelAndView.addObject("pfaEntity", pfaEntity);
-        return modelAndView;
-    }
 
     @PostMapping("/save")
     public RedirectView saveProduct(PfaEntity pfaEntity) {
@@ -143,6 +136,24 @@ public class PfaController {
         return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(nr));
     }
 
+    @GetMapping("/taxes/{id}")
+    public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
+        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
+        saveTotalTaxes(pfaEntity);
+        pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+
+        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
+        List<PfaEntity> list = new ArrayList<PfaEntity>();
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getLoginId() == id) {
+                list.add(lista.get(i));
+            }
+        }
+        modelAndView.addObject("pfaLista", list);
+        modelAndView.addObject("pfaEntity", pfaEntity);
+        return modelAndView;
+    }
 
     @GetMapping
     public ModelAndView getPage() {
@@ -167,30 +178,6 @@ public class PfaController {
         return modelAndView;
     }
 
-//    private Long methodThatSumAllTaxes(PfaEntity pfaEntity, List<PfaEntity> lista, List<Long> pfaTaxesByID) {
-//        long sum = 0;
-//        for (int i = 0; i < lista.size(); i++) {
-//            pfaTaxesByID.add(lista.get(i).getTaxesTotal());
-//        }
-//
-//        for(int i = 0; i< pfaTaxesByID.size(); i++)
-//            sum += pfaTaxesByID.get(i);
-//
-//        pfaEntity.setTotalTaxesById(sum);
-//        return sum;
-//    }
-
-    @GetMapping("/taxes")
-    public ModelAndView afisareTaxe() {
-        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
-        PfaEntity pfaEntity = new PfaEntity();
-        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
-        System.out.println(pfaService.findAll(pfaEntity));
-        saveTotalTaxes(pfaEntity);
-        modelAndView.addObject("pfaLista", lista);
-        return modelAndView;
-    }
-
     private long saveTotalTaxes(PfaEntity pfaEntity) {
         List<PfaEntity> lista = pfaService.findAll(pfaEntity);
         List<Long> pfaTaxesByID = new ArrayList<>();
@@ -207,22 +194,20 @@ public class PfaController {
         return sum;
     }
 
-    @PostMapping()
-    public void sendFeedback(@RequestBody PfaEntity pfaEntity, BindingResult bindingResult) {
+    @GetMapping("/taxes")
+    public ModelAndView afisareTaxe() {
+        ModelAndView modelAndView = new ModelAndView("pfaTaxes");
+        PfaEntity pfaEntity = new PfaEntity();
+        List<PfaEntity> lista = pfaService.findAll(pfaEntity);
+        System.out.println(pfaService.findAll(pfaEntity));
+        saveTotalTaxes(pfaEntity);
+        modelAndView.addObject("pfaLista", lista);
+        return modelAndView;
+    }
 
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost(this.emailConfiguration.getHost());
-        javaMailSender.setPort(this.emailConfiguration.getPort());
-        javaMailSender.setUsername(this.emailConfiguration.getUsername());
-        javaMailSender.setPassword(this.emailConfiguration.getPassword());
-
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("rc@feedback.com");
-        simpleMailMessage.setTo(pfaEntity.getEmail());
-        simpleMailMessage.setSubject("Your taxes are: ");
-        simpleMailMessage.setText("Your taxes are : " + pfaEntity.getTotalTaxesById());
-
-        javaMailSender.send(simpleMailMessage);
+    @GetMapping("/sendEmail")
+    public void sendFeedback(ModelAndView modelAndView, ModelMap modelMap,BindingResult bindingResult) throws MessagingException {
+       emailSender.sendEmail();
     }
 
 
