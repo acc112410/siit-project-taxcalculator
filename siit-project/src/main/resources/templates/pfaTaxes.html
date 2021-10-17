@@ -59,7 +59,6 @@
         <th style="background-color:#00588CFF" scope="col">income_Taxes_Per_Month</th>
         <th style="background-color:#00588CFF" scope="col">dividend_taxes_Per_Month</th>
         <th style="background-color:#00588CFF" scope="col">taxes_Total</th>
-        <th style="background-color:#00588CFF" scope="col">TAXESSUM</th>
         <th style="background-color:#00588CFF" scope="col">Settings</th>
 <!--    <tr>-->
 <!--        <th type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">Taxes total</th>-->
@@ -81,18 +80,39 @@
         <td style="background-color: aqua" th:text="${pfaEntity.incomeTaxesPerMonth}"/>
         <td style="background-color: aqua" th:text="${pfaEntity.dividendTaxesPerMonth}"/>
         <td style="background-color: aqua" th:text="${pfaEntity.taxesTotal}"/>
-        <td style="background-color: #e75f5f" th:text="${pfaEntity.totalTaxesById}"/>
         <td>
             <a th:href="@{'/pfa/edit/' + ${pfaEntity.id}}">Edit</a>
             &nbsp;&nbsp;&nbsp;
             <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">x</a>
         </td>
     </tr>
+<!--    <tr>-->
+<!--        <th style="background-color:#00588CFF" scope="row">Total taxes</th>-->
+<!--    </tr>-->
+<!--    <tr th:object="${pfaEntity}">-->
+<!--        <td style="background-color: #42b9b9" th:text="${pfaEntity.getTotalTaxesById()}"/>-->
+<!--    </tr>-->
     </tbody>
 <!--    <tr th:each="pfaEntity : ${pfaLista}">-->
 <!--        <th type="button" style="background-color:#ff0000" scope="row" class="btn btn-primary btn-block">Taxes total</th>-->
 <!--        <td style="background-color: #e75f5f" th:text="${pfaEntity.totalTaxesById}"/>-->
 <!--    </tr>-->
+</table>
+<table align="center" class="table table-bordered">
+<tr>
+    <th style="background-color:#00588CFF" scope="row">Total taxes</th>
+    <td style="background-color: #42b9b9" th:text="${pfaEntity.getTotalTaxesById()}"/>
+    <th style="background-color: #83b942">
+        <buton>
+            <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">Send taxes on Email</a>
+        </buton>
+    </th>
+
+<!--    <buton>-->
+<!--        <a th:href="@{'/pfa/delete/' + ${pfaEntity.id}}">Send taxes on Email</a>-->
+<!--    </buton>-->
+</tr>
+
 </table>
 </body>
 </html>

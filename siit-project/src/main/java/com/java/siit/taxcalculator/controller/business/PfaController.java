@@ -1,6 +1,7 @@
 package com.java.siit.taxcalculator.controller.business;
 
 
+//import com.java.siit.taxcalculator.config.EmailConfiguration;
 import com.java.siit.taxcalculator.config.EmailConfiguration;
 import com.java.siit.taxcalculator.domain.entity.LoginEntity;
 import com.java.siit.taxcalculator.domain.entity.business.PfaEntity;
@@ -38,11 +39,10 @@ public class PfaController {
 
         ModelAndView modelAndView = new ModelAndView("pfa");
         LoginEntity loginEntity = loginService.get(id);
-        System.out.println(loginEntity.getId());
-
         PfaEntity pfaEntity = new PfaEntity();
-        pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+
         pfaEntity.setLoginId(loginEntity.getId());
+
         modelAndView.addObject("pfaEntity", pfaEntity);
         return modelAndView;
     }
@@ -51,8 +51,9 @@ public class PfaController {
     public RedirectView saveCalcul(PfaEntity pfaEntity) {
 
         pfaService.createPfa(pfaService.toDto(pfaEntity));
-//        saveTotalTaxes(pfaEntity);
+        saveTotalTaxes(pfaEntity);
         pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+
         System.out.println(pfaEntity.getTotalTaxesById());
 
         return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(pfaEntity.getLoginId()));
@@ -62,6 +63,9 @@ public class PfaController {
     @GetMapping("/taxes/{id}")
     public ModelAndView afisareTaxe(@PathVariable("id") Long id, PfaEntity pfaEntity) {
         ModelAndView modelAndView = new ModelAndView("pfaTaxes");
+        saveTotalTaxes(pfaEntity);
+        pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
+
         List<PfaEntity> lista = pfaService.findAll(pfaEntity);
         List<PfaEntity> list = new ArrayList<PfaEntity>();
 
@@ -71,6 +75,7 @@ public class PfaController {
             }
         }
         modelAndView.addObject("pfaLista", list);
+        modelAndView.addObject("pfaEntity", pfaEntity);
         return modelAndView;
     }
 
@@ -78,7 +83,7 @@ public class PfaController {
     public RedirectView saveProduct(PfaEntity pfaEntity) {
 
         pfaService.updatePfa(pfaService.toDto(pfaEntity));
-//        saveTotalTaxes(pfaEntity);
+        saveTotalTaxes(pfaEntity);
         pfaEntity.setTotalTaxesById(saveTotalTaxes(pfaEntity));
         System.out.println(pfaEntity.getTotalTaxesById());
 
@@ -134,7 +139,6 @@ public class PfaController {
         PfaEntity pfaEntity1 = pfaService.get(id);
         Long nr = pfaEntity1.getLoginId();
         pfaService.delete(id);
-        saveTotalTaxes(pfaEntity);
         System.out.println(pfaEntity.getTotalTaxesById());
         return new RedirectView("http://localhost:8080/pfa/taxes/" + Long.toString(nr));
     }
