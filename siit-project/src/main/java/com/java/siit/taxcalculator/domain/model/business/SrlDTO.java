@@ -13,11 +13,11 @@ public class SrlDTO {
     private long id;
     private long cui;
     private int income;
-    private String name;
     private int CASS;
     private int CAS;
     private long incomeTaxes;
     private long incomeTaxesPerMonth;
     private long dividendTaxesPerMonth;
-
+    private long fiscalYear;
+    private long loginId;
 }

@@ -36,9 +36,6 @@ public class PfaEntity {
     @Column(name = "cui")
     private long cui;
 
-   // @Column(name = "email")
-  //  private String email;
-
     @Column(name = "CASS")
     private int CASS;
 

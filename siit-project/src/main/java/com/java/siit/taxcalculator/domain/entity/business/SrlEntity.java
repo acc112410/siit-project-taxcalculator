@@ -1,19 +1,17 @@
 package com.java.siit.taxcalculator.domain.entity.business;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-
+@Getter
+@Setter
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "SRL")
+@Table(name = "srl")
 public class SrlEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,25 +23,24 @@ public class SrlEntity {
     @Column(name = "cui")
     private long cui;
 
-    @Column(name = "name")
-    private String name;
-
-    @Email(message = "Email should be valid")
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "CASS")
     private int CASS;
 
     @Column(name = "CAS")
     private int CAS;
 
-    @Column(name = "incomeTaxes")
+    @Column(name = "income_Taxes")
     private long incomeTaxes;
 
-    @Column(name = "incomeTaxesPerMonth")
+    @Column(name = "income_Taxes_Per_Month")
     private long incomeTaxesPerMonth;
 
-    @Column(name = "dividendTaxesPerMonth")
+    @Column(name = "dividend_Taxes_Per_Month")
     private long dividendTaxesPerMonth;
+
+    @Column(name = "fiscal_Year")
+    private long fiscalYear;
+
+    @Column(name = "login_id")
+    private long loginId;
 }

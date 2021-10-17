@@ -119,9 +119,14 @@ public class PfaService {
 //        return pfaRepository.findByFiscalYear();
 //    }
 
+
+    public PfaEntity deletePfaEntityById(int id) {return pfaRepository.deletePfaEntityById(id);}
+
+
 //    public PfaEntity getById(Long loginId) {
 //        return pfaRepository.findById(loginId).get();
 //    }
+
 
     public void delete(Long id) {
         pfaRepository.deleteById(id);
@@ -134,6 +139,8 @@ public class PfaService {
     public void delete(PfaEntity pfaEntity) {
         pfaRepository.delete(pfaEntity);
     }
+
+
 
     //    public List<PfaEntity> findByLoginId(Long id) {
 //        return pfaRepository.findAllByLoginId();

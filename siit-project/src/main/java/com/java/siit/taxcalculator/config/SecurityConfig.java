@@ -29,11 +29,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String usersQuery;
 
 
+//
+//    @Component("userSecurity")
+//    public class UserSecurity {
+//        public boolean hasUserId(LoginEntity loginEntity, Long id) {
+//            boolean answer;
+//            if (loginEntity.getId() == id) {
+//                answer = true;
+//            } else { answer = false;}
+//            return answer;
+//        }
+//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT user_email, user_password, enabled " +"FROM login " +"WHERE user_email= ?").authoritiesByUsernameQuery("SELECT user_email, authority "+ "FROM authorities "+ "WHERE user_email= ?").passwordEncoder(bCryptPasswordEncoder);
+
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery("SELECT user_email, 'ROLE_USER' FROM login WHERE user_email=?")
                 .dataSource(dataSource).passwordEncoder(bCryptPasswordEncoder);
+
 
     }
 
@@ -41,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**/{id}").hasRole("USER")
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/index").permitAll()
