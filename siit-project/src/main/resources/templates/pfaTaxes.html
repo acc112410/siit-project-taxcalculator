@@ -114,6 +114,30 @@
 </tr>
 
 </table>
+<table  class="table table-bordered">
+    <thead>
+    <tr>
+        <th style="background-color:#ff0000" scope="row">An fiscal</th>
+    </tr>
+    <tr>
+
+        <th style="background-color:#00588CFF" scope="col">fiscalYear</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pfaEntity : ${pfaLista}">
+        <td  style="background-color: #e75f5f" th:text="${pfaEntity.fiscalYear}"/>
+        <td>
+            <a th:href="@{'/pfa/taxes/'+${pfaEntity.loginId} +'/' +${pfaEntity.fiscalYear}}" class="btn btn-primary btn-block">Select</a>
+        </td>
+
+
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
 

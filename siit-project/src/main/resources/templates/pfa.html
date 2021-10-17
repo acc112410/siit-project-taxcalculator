@@ -93,7 +93,7 @@
         <!--/*@thymesVar id="pfaEntity" type=""*/-->
 
         <!--/*@thymesVar id="loginEntity" type=""*/-->
-        <form autocomplete="off" action="#" th:action="@{/pfa/saveCalcul}" th:object="${pfaEntity}"  method="post"
+        <form autocomplete="off" action="#" th:action="@{/user/pfa/saveCalcul}" th:object="${pfaEntity}"  method="post"
               class="form-signin" role="form">
             <h3 class="form-signin-heading">Introduceti suma</h3>
 
@@ -117,12 +117,12 @@
 
 
             <button
-                    type="submit" onclick="window.location.href = 'localhost:8080/pfa/saveCalcul'";
+                    type="submit" onclick="window.location.href = 'localhost:8080/user/pfa/saveCalcul'";
                     class="btn btn-primary btn-block">Adaugati in registru
             </button>
 
 
-            <a th:href="@{'/pfa/taxes/'+${pfaEntity.loginId}}" class="btn btn-primary btn-block">Afisati registrul</a>
+            <a th:href="@{'/user/pfa/taxes/'+${pfaEntity.loginId}}" class="btn btn-primary btn-block">Afisati registrul</a>
 
         <form autocomplete="off" action="#" th:action="@{/pfa}" th:object="${pfaEntity}" method="post"
               class="form-signin" role="form">
@@ -138,11 +138,11 @@
             <!--                    <input type="number" id="income" placeholder="Income" class="form-control" />-->
             <!--                </div>-->
             <!--            </div>-->
-            <button type="submit" onclick="window.location.href = 'localhost:8080/pfa/taxes';" class="btn btn-primary btn-block">Submit</button>
+            <button type="submit" onclick="window.location.href = 'localhost:8080/user/pfa/taxes';" class="btn btn-primary btn-block">Submit</button>
             <div class="row col-lg-4 col-lg-offset-4"
                  style="margin-top: 40px; background-color: #fff; padding: 20px; border: solid 1px #ddd;">
                 <!--/*@thymesVar id="pfaEntity" type=""*/-->
-                <form autocomplete="off" action="#" th:action="@{/pfa}" th:object="${pfaEntity}" method="post"
+                <form autocomplete="off" action="#" th:action="@{/user/pfa}" th:object="${pfaEntity}" method="post"
                       class="form-signin" role="form">
                     <h3 class="form-signin-heading">Registration Form</h3>
                 </form>
